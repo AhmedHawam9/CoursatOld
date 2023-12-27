@@ -191,8 +191,8 @@
                                     <div class="alert alert-danger">هذا الحقل مطلوب</div>
                                 @enderror
                             </div>
-
                             <input type="hidden" name="id" value="{{ $video->youtube_link }}">
+
                         </div>
 
 
