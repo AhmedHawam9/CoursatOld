@@ -101,7 +101,7 @@
                                 </video>
                                 <br>
                                 <br>
-                                <input id="kt" type="file" class="form-control ehabtalaat" required
+                                <input id="kt" type="file" class="form-control ehabtalaat" 
                                     name="url">
                                 <label for="kt" class="ahmed">اضافة فيديو</label>
                                 @error('url')

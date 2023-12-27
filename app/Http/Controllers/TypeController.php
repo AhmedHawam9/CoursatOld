@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\Admin\SystemContent\TypesDataTable;
 use App\Stage;
 use App\Subject;
 use App\Tag;
@@ -15,6 +16,8 @@ use Validator;
 
 class TypeController extends Controller
 {
+    protected $view = "dashboard.types-basic_courses.";
+
     public function __construct()
     {
         $this->middleware(['permission:types-create'])->only('addtype');
@@ -22,9 +25,12 @@ class TypeController extends Controller
         $this->middleware(['permission:types-update'])->only('edittype');
         $this->middleware(['permission:types-delete'])->only('deletetype');
     }
-    public function types()
+    public function types(TypesDataTable $dataTable)
     {
-        if (Auth::user() && Auth::user()->isAdmin == 'admin') {
+        return $dataTable->render($this->view . 'index', [
+            'stages' => Stage::all(),
+        ]);
+        /**if (Auth::user() && Auth::user()->isAdmin == 'admin') {
             $types = Type::orderBy('created_at', 'desc')->get();
         } else if (Auth::user() && Auth::user()->is_student == 2) {
             $types = Type::orderBy('created_at', 'desc')->where('user_id', Auth::user()->id)->get();
@@ -32,7 +38,7 @@ class TypeController extends Controller
             $types = Type::orderBy('created_at', 'desc')->where('center_id', Auth::user()->id)->get();
         }
         return view('dashboard.types', compact('types'))
-            ->with('stages', Stage::all());
+            ->with('stages', Stage::all());*/
     }
     public function deletetype($id)
     {

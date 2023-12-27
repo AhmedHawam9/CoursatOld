@@ -1,8 +1,8 @@
 <div class="header-table">
     <h3>كورسات</h3>
-    <div class="form-group">
+    {{-- <div class="form-group">
         <input type="date" id="course_date" onclick="filter_courses({{ $student->id }})" class="form-control">
-    </div>
+    </div> --}}
 </div>
 <div class="table-responsive">
     <div class="table_details">

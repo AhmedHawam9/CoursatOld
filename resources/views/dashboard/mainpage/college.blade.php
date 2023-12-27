@@ -202,6 +202,7 @@
         <!--  أكثر المدرسين طلبا -->
     </div>
      <div class="row">
+       <div class="table-responsive">
         <table class="table w-100" id="example">
             <thead>
                 <tr>
@@ -222,14 +223,14 @@
         <td class="tex-center">
         <div id="status{{$join->id}}">
             @if($join->status == 0)
-          
+
         <button type="button"  class="btn btn-success
          btn-light-success w-30" onclick="accept_typecollege_join({{$join->id}})">
                            قبول </button>
                            <button type="button"  class="btn btn-danger
          btn-light-danger w-30 "  onclick="refuse_typecollege_join({{$join->id}})">
                            رفض </button>
-            
+
             @elseif($join->status == 1)
             <span class="badge badge-success p-2">تم القبول</span>
             @elseif($join->status == 2)
@@ -241,6 +242,7 @@
               @endforeach
             </tbody>
         </table>
+        </div>
     </div>
 </div>
 @endsection
@@ -315,7 +317,7 @@
     });
     function accept_typecollege_join(sel){
     let id = sel;
- 
+
  $.ajaxSetup({
        headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -338,11 +340,11 @@
          $(`#status${id}`).html('<span class="badge badge-success p-2">تم القبول</span>');
        }
            }
-        
+
     });
     }function refuse_typecollege_join(sel){
     let id = sel;
- 
+
  $.ajaxSetup({
        headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -365,9 +367,9 @@
          $(`#status${id}`).html('<span class="badge badge-danger p-2">تم الرفض</span>');
        }
            }
-        
+
     });
     }
- 
+
 </script>
 @endsection

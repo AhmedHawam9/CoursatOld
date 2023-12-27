@@ -81,15 +81,17 @@
 
 
 
+            <div class="table-responsive">
 
-                                {!! $dataTable->table(
-                                    [
-                                        'class' => 'table_expenses table_topic table table-striped table-bordered',
-                                    ],
-                                    true,
-                                ) !!}
+                {!! $dataTable->table(
+                    [
+                        'class' => 'table_expenses table_topic table table-striped table-bordered',
+                    ],
+                    true,
+                ) !!}
 
 
+            </div>
 
             <!--end setting-->
 

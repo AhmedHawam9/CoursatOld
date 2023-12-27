@@ -1,8 +1,8 @@
 <div class="header-table">
     <h3>History</h3>
-    <div class="form-group">
+    {{-- <div class="form-group">
         <input type="date" class="form-control">
-    </div>
+    </div> --}}
 </div>
 {{-- <div class="table-responsive">
     <div class="table_details">

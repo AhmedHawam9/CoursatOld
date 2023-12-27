@@ -115,6 +115,7 @@
                     <div class="pt-5">
                         <div class="row">
 
+                        <div class="table-responsive">
                             <table id="example" class="table col-12" style="width:100%">
                                 <thead>
                                     <tr>
@@ -146,6 +147,7 @@
                                 </tbody>
                             </table>
 
+                        </div>
                         </div>
 
                     </div>

@@ -60,6 +60,7 @@ class TypeSubscriptionDataTable extends DataTable
                 return $query->user->name ?? "";
             })
             ->filter(function ($query) use ($request) {
+                //search
                 if (
                     $request->has('search') && isset($request->input('search')['value'])
                     && !empty($request->input('search')['value'])
@@ -74,46 +75,30 @@ class TypeSubscriptionDataTable extends DataTable
                         $q->where('name', 'LIKE', "%$searchValue%");
                     });
                 }
-                $query->whereHas('student', function ($q) use ($request) {
-
-                    $q
-                        ->when($request->stage_id != null && $request->stage_id != 0, function ($q) use ($request) {
-                            // dd($request->all());
-                            return $q->where('stage_id', (int)$request->stage_id);
-                        })
-                        ->when($request->year_id != null && $request->year_id != 0, function ($q) use ($request) {
-                            return $q->where('year_id', (int)$request->year_id);
-                        })
-                        ->when($request->subject_id != null && $request->subject_id != 0, function ($q) use ($request) {
-                            return $q->where('subject_id', (int)$request->subject_id);
-                        })
-                        ->when($request->type_id != null, function ($q) use ($request) {
-
-                            return $q->whereHas('stutypes', function ($typeq) use ($request) {
-                                return $typeq->where('types.id', (int)$request->type_id);
-                            });
-                        })
-                        ->when($request->subscription_type != null, function ($q) use ($request) {
-                            return $q->where('type', (int)$request->subscription_type);
-                        })
-                        ->when($request->university_id != null && $request->university_id != 0, function ($q) use ($request) {
-                            return $q->where('university_id', (int)$request->university_id);
-                        })
-                        ->when($request->college_id != null && $request->college_id != 0, function ($q) use ($request) {
-                            return $q->where('college_id', (int)$request->college_id);
-                        })
-                        ->when($request->division_id != null && $request->division_id != 0, function ($q) use ($request) {
-                            return $q->where('division_id', (int)$request->division_id);
-                        })
-                        ->when($request->section_id != null && $request->section_id != 0, function ($q) use ($request) {
-                            return $q->where('section_id', (int)$request->section_id);
-                        })
-                        ->when($request->type_college_id != null && $request->type_college_id != 0, function ($q) use ($request) {
-                            return $q->whereHas('stutypescollege', function ($typeq) use ($request) {
-                                return $typeq->where('typescollege.id', (int)$request->type_college_id);
-                            });
+                //filter
+                $query
+                    ->when($request->stage_id != null && $request->stage_id != 0, function ($q) use ($request) {
+                        // dd($request->all());
+                        return $q->whereHas('type_course.stage', function ($stuentd_q) use ($request) {
+                            return $stuentd_q->where('stages.id', (int)$request->stage_id);
                         });
-                });
+                    })
+                    ->when($request->years_id != null && $request->years_id != 0, function ($q) use ($request) {
+                        return $q->whereHas('type_course.year', function ($stuentd_q) use ($request) {
+                            return $stuentd_q->where('years.id', (int)$request->years_id);
+                        });
+                    })
+                    ->when($request->subject_id != null && $request->subject_id != 0, function ($q) use ($request) {
+                        return $q->whereHas('type_course.subject', function ($subject_q) use ($request) {
+                            return $subject_q->where('subjects.id', (int)$request->subject_id);
+                        });
+                    })
+                    ->when($request->type_id != null && $request->type_id != 0, function ($q) use ($request) {
+                        return $q->where('type_id', (int)$request->type_id);
+                    })
+                    ->when($request->subscription_type != null, function ($stuentd_q) use ($request) {
+                        return $stuentd_q->where('type', (int)$request->subscription_type);
+                    });
             })
 
 

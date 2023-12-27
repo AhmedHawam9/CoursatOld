@@ -20,8 +20,8 @@ class AppResource extends JsonResource
             'ios_version' =>  1,//$this->ios_version,
             "ios_status" =>  false,//$this->ios_status,
             "android_status" =>  false,//$this->android_status,
-            "old_app_status" => 1,
-            "new_app_status" => 0,
+            "old_app_status" => 0,
+            "new_app_status" => 1,
 
         ];
     }

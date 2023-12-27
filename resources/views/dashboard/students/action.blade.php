@@ -28,6 +28,7 @@
         width: 25px;
     }
 </style>
+
 @php
     $student = \App\User::find($id);
 @endphp
@@ -253,7 +254,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
 
-               
+
                 var url = "{{ route('stutypes.deleteuser_from_stutypes') }}";
 
                 var table = $('.table').DataTable();

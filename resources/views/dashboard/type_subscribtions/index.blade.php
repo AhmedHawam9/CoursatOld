@@ -149,13 +149,13 @@
             $('#dataTableBuilder').on('preXhr.dt', function(e, settings, data) {
                 //basic filters
                 data.stage_id = $("#stage_id").val();
-                data.year_id = $("#years_id").val();
+                data.years_id = $("#years_id").val();
                 data.subjects_id = $("#subjects_id").val();
                 data.subscription_type = $("#subscription_type :selected").val();
                 data.type_id = $("#type_id").val();
-                
 
             });
+
             $('#dataTableBuilder').DataTable().ajax.reload();
         }
     </script>

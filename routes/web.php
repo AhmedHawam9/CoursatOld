@@ -27,7 +27,7 @@
      $videos =  VideosCollege::where('id',657)->get();
      foreach($videos as $video){
        dd($details = \Storage::disk("google")->getMetadata($video->url));
-      dd(\Storage::disk('google')->files()[0]);
+      dd(\Storage::disk('google')->files()[0]);feditvideoscollege
   //    $new_name1 ="https://drive.google.com/uc?id=".$video->url."&export=media";
      // $new_name1 = \Storage::disk('google')->downlaod($video->url);
       // $new_name1 = Storage::disk("google")->getMetadata($video->url)["path"];

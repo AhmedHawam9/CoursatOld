@@ -29,6 +29,7 @@ use App\Message;
 use App\Center_Teacher;
 use App\Center_Doctor;
 use App\Http\Resources\AppResource;
+use App\Http\Services\WhatsappService;
 use App\Notification;
 use App\Offer;
 use App\Stage;
@@ -56,6 +57,12 @@ use Validator;
 class AuthController extends Controller
 {
     use ApiTrait;
+
+    protected $whatsappService;
+    public function __construct(WhatsappService $whatsappService)
+    {
+        $this->whatsappService = $whatsappService;
+    }
     public function mynotifications()
     {
         $user = auth()->user();
@@ -113,6 +120,8 @@ class AuthController extends Controller
                     return response()->json(['status' => false, 'message_ar' => $validator->messages()->first()]);
                 }
             }
+            $verification_code = rand(100000, 999999);
+            $data["verification_code"] = $verification_code;
             $data = [];
             $data['api_token'] = Hash::make(rand(0, 999999) . time());
             $data['password'] = Hash::make($request->password);
@@ -131,6 +140,10 @@ class AuthController extends Controller
 
             $user = User::create($data);
 
+            $this->whatsappService->send_whatsapp(
+                $request->phone,
+                "رمز التفعيل الخاص بك هو : " . $verification_code,
+            );
             //         if($request->hasFile('image'))
             //         {
             //             $image = $request->image;

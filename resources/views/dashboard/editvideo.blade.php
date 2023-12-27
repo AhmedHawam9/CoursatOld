@@ -148,7 +148,7 @@
                             {{-- youtube --}}
                             <div class="col-12 form-group">
                                 <label for="youtube_link" class="ahmed">اضافة لينك youtube</label>
-                                <input id="youtube_link" type="text" class="form-control" name="youtube_link">
+                                <input id="youtube_link" type="text" class="form-control" name="youtube_link" value="{{ $video->youtube_link ?? '' }}">
 
                                 @error('youtube_link')
                                     <div class="alert alert-danger">هذا الحقل مطلوب</div>

@@ -112,9 +112,9 @@
                         <div class="row">
                             <div class="form-group col-lg-3 col-md-6 col-12">
                                 <label>المرحله</label>
-                                <select class="form-control selectpicker new" name="stage_id" onchange="getstage(this)">
-                                    <option value="0" selected="selected" required disabled="disabled">ادخل المرحله
-                                    </option>
+                                <select class="form-control selectpicker new" name="stage_id" id="stage_id"
+                                    onchange="getstage(this); filtertypes()" title="ادخل المرحله">
+                                    {{-- <option value="0" selected="selected" required disabled="disabled">ادخل المرحله</option> --}}
                                     @foreach ($stages as $stage)
                                         <option value='{{ $stage->id }}'>{{ $stage->name_ar }}</option>
                                     @endforeach
@@ -125,9 +125,9 @@
                             </div>
                             <div class="form-group col-lg-3 col-md-6 col-12">
                                 <label>سنه الماده</label>
-                                <select class="form-control selectpicker new" name="years_id" required id="year"
-                                    onchange="getyear(this)">
-                                    <option value="0" selected="selected" disabled="disabled">اختر السنه</option>
+                                <select class="form-control selectpicker new" name="years_id" required id="years_id"
+                                    onchange="getyear(this); filtertypes()" title="اختر السنه">
+                                    {{-- <option value="0" selected="selected" disabled="disabled">اختر السنه</option> --}}
 
                                 </select>
                                 @error('years_id')
@@ -136,9 +136,9 @@
                             </div>
                             <div class="form-group col-lg-3 col-md-6 col-12">
                                 <label>الماده </label>
-                                <select class="form-control selectpicker new" name="subjects_id" required id="subject"
-                                    onchange="getteacher(this)">
-                                    <option value="0" selected="selected" disabled="disabled">اختر الماده</option>
+                                <select class="form-control selectpicker new" name="subjects_id" required id="subjects_id"
+                                    onchange="getteacher(this); filtertypes()" title="اختر الماده">
+                                    {{-- <option value="0" selected="selected" disabled="disabled">اختر الماده</option> --}}
 
                                 </select>
                                 @error('subjects_id')
@@ -149,22 +149,33 @@
                             <div class="form-group col-lg-3 col-md-6 col-12">
                                 <label>الشهر </label>
                                 <input type="month" class="form-control" id="month" name="month"
-                                    value="{{ \Carbon\Carbon::now()->format('Y-m') }}" />
+                                    {{-- value="{{ \Carbon\Carbon::now()->format('Y-m') }}" --}} />
                                 @error('month')
                                     <p style="color:red;">{{ $message }}</p>
                                 @enderror
                             </div>
 
-                            <div
+                            {{-- <div
                                 class="form-group col-lg-3 col-md-6 col-12 d-flex justify-content-center align-items-center flex-column">
                                 <label style="opacity: 0" class="w-100 d-block">الماده </label>
                                 <span class="btn btn-primary d-block" style="width: 75%; display: block; margin: 0 auto;"
                                     onclick="filtertypes()">بحث</span>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="row">
 
-                            <table id="example" class="table col-12 table-responsive" style="width:100%">
+                            <div class="table-responsive">
+
+                                {!! $dataTable->table(
+                                    [
+                                        'class' => 'table_expenses table_topic table table-striped table-bordered',
+                                    ],
+                                    true,
+                                ) !!}
+
+                            </div>
+
+                            {{-- <table id="example" class="table col-12 table-responsive" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>id</th>
@@ -205,40 +216,40 @@
                                             </td>
                                             <td class="text-center">{{ $type->created_at->format('Y-m-d') }}</td>
                                             <td class="text-center">
-                                              <div class="opitions">
-                                                <a href="{{ route('edittype', $type->id) }}"> <img
-                                                    src="{{ asset('images/pen.svg') }}" id="pen"
-                                                    style="cursor: pointer"></a>
-                                            @if (auth()->user()->hasPermission('types-delete'))
-                                                <img src="{{ asset('images/trash.svg') }}" id="trash"
-                                                    onclick="deletetype('{{ $type->id }}')"
-                                                    style="cursor:pointer;">
-                                            @endif
-                                            <span class="btn bg-success btn-success text-white btn-sm"
-                                                id="btn{{ $type->id }}"
-                                                onclick="activetype({{ $type->id }})">
-                                                @if ($type->active == 1)
-                                                    الغاء التفعيل
-                                                @else
-                                                    تفعيل
-                                                @endif
+                                                <div class="opitions">
+                                                    <a href="{{ route('edittype', $type->id) }}"> <img
+                                                        src="{{ asset('images/pen.svg') }}" id="pen"
+                                                        style="cursor: pointer"></a>
+                                                    @if (auth()->user()->hasPermission('types-delete'))
+                                                        <img src="{{ asset('images/trash.svg') }}" id="trash"
+                                                            onclick="deletetype('{{ $type->id }}')"
+                                                            style="cursor:pointer;">
+                                                    @endif
+                                                    <span class="btn bg-success btn-success text-white btn-sm"
+                                                        id="btn{{ $type->id }}"
+                                                        onclick="activetype({{ $type->id }})">
+                                                        @if ($type->active == 1)
+                                                            الغاء التفعيل
+                                                        @else
+                                                            تفعيل
+                                                        @endif
 
-                                            </span>
-                                            <a href="{{ route('grouptypes', $type->id) }}"
-                                                class="btn btn-success btn-sm">المجموعات</a>
-                                            <a href="{{ route('studentstype', $type->id) }}"
-                                                class="btn btn-success btn-sm">الطلاب</a>
-                                            <a href="{{ route('bannedStudentstype', $type->id) }}"
-                                                class="btn btn-danger btn-sm"> الطلاب المحذوفين </a>
-                                            <a href="{{ route('typeexams', $type->id) }}"
-                                                class="btn btn-success btn-sm">الامتحانات</a>
-                                            <span class="btn btn-success btn-sm" data-toggle="modal"
-                                                data-target="#myModal{{ $type->id }}">create qrcode</span>
-                                            <a href="{{ route('types.patches', $type->id) }}" title="QrCode History"
-                                                class="text-dark ml-2"><i class="fas fa-cog"></i></a>
-                                            <a href="{{ route('security', $type->id) }}" title="اعدادات الامان"
-                                                class="text-dark ml-2"><i class="fas fa-cog"></i></a>
-                                              </div>
+                                                    </span>
+                                                    <a href="{{ route('grouptypes', $type->id) }}"
+                                                        class="btn btn-success btn-sm">المجموعات</a>
+                                                    <a href="{{ route('studentstype', $type->id) }}"
+                                                        class="btn btn-success btn-sm">الطلاب</a>
+                                                    <a href="{{ route('bannedStudentstype', $type->id) }}"
+                                                        class="btn btn-danger btn-sm"> الطلاب المحذوفين </a>
+                                                    <a href="{{ route('typeexams', $type->id) }}"
+                                                        class="btn btn-success btn-sm">الامتحانات</a>
+                                                    <span class="btn btn-success btn-sm" data-toggle="modal"
+                                                        data-target="#myModal{{ $type->id }}">create qrcode</span>
+                                                    <a href="{{ route('types.patches', $type->id) }}" title="QrCode History"
+                                                        class="text-dark ml-2"><i class="fas fa-cog"></i></a>
+                                                    <a href="{{ route('security', $type->id) }}" title="اعدادات الامان"
+                                                        class="text-dark ml-2"><i class="fas fa-cog"></i></a>
+                                                </div>
                                             </td>
                                         </tr>
                                         <div class="modal" id="myModal{{ $type->id }}" tabindex="-1"
@@ -292,10 +303,7 @@
                                         </div>
                                     @endforeach
                                 </tbody>
-                            </table>
-
-
-
+                            </table> --}}
 
                         </div>
 
@@ -322,166 +330,9 @@
     <!--end page-body-->
 @endsection
 @section('scripts')
-    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-
-    <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+    {{ $dataTable->scripts() }}
 
     <script>
-        function store_qrcodes(type_id) {
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-
-            $.ajax({
-                type: 'POST',
-                data: {
-                    'type_id': type_id,
-                    'count': $(`#count${type_id}`).val(),
-                    'expire_date': $(`#expire_date${type_id}`).val(),
-                },
-                url: `{{ route('store_qrcode') }}`,
-                dataType: "Json",
-                success: function(result) {
-                    if (result.status == true) {
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'success',
-                            title: result.message,
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-                        $(`#qrcodes${type_id}`).html(result.html);
-
-                        // $(`#myModal${type_id}`).modal('hide');
-                        // table.ajax.reload();
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: result.message
-                        })
-                    }
-                }
-            });
-        }
-    </script>
-    <script>
-        function printDiv(divName) {
-            var PrintContent = document.getElementById(divName).innerHTML;
-            const y = window.top.outerHeight / 2 + window.top.screenY - (530 / 2);
-            const x = window.top.outerWidth / 2 + window.top.screenX - (400 / 2);
-            var PrintWindow = window.open('', '',
-                `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=400, height=530, top=${y}, left=${x}`
-            );
-            PrintWindow.document.write('<html><head></head><body>');
-            PrintWindow.document.write(PrintContent);
-            PrintWindow.document.write('</body></html>');
-            setTimeout(function() {
-                PrintWindow.focus();
-                PrintWindow.print();
-                PrintWindow.close();
-            }, 500);
-        }
-    </script>
-    <script>
-        $(document).ready(function() {
-            $('#example').DataTable({
-                "order": [
-                    [0, "desc"]
-                ], // Order on init. # is the column, starting at 0});
-                columnDefs: [{
-                    targets: 0,
-                    visible: false,
-
-
-                }, ]
-
-            });
-        });
-
-        function activetype(id) {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                type: "get",
-                url: `activetype/${id}`,
-                contentType: "application/json; charset=utf-8",
-                dataType: "Json",
-                success: function(result) {
-                    if (result.status == 'deactive') {
-                        Swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
-                            title: 'تم الغاء التفعيل ',
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-                        $(`#btn${id}`).html('تفعيل');
-
-                    } else if (result.status == 'active') {
-                        Swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
-                            title: 'تم التفعيل  ',
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-                        $(`#btn${id}`).html('الغاء التفعيل');
-
-                    }
-
-                }
-
-            });
-        }
-
-        function deletetype(sel) {
-            let id = sel;
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        type: "get",
-                        url: `deletetype/${id}`,
-                        //    contentType: "application/json; charset=utf-8",
-                        dataType: "Json",
-                        success: function(result) {
-                            if (result.status == true) {
-                                $(`#type${id}`).remove();
-                                Swal.fire(
-                                    'Deleted!',
-                                    'Your file has been deleted.',
-                                    'success'
-                                )
-                            }
-                        }
-
-                    });
-                }
-
-
-            })
-        }
-
         function getstage(selected) {
             let id = selected.value;
             $.ajaxSetup({
@@ -495,9 +346,10 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "Json",
                 success: function(result) {
-                    $('#year').empty();
-                    $('#year').html(result);
-                    $('#year').selectpicker('refresh');
+                    $('#years_id').empty();
+                    $('#years_id').html(result);
+                    $('#years_id').selectpicker('refresh');
+                    $('#subjects_id').selectpicker('refresh');
                 }
 
             });
@@ -516,41 +368,26 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "Json",
                 success: function(result) {
-                    $('#subject').empty();
-                    $('#subject').html(result);
-                    $('#subject').selectpicker('refresh');
+                    $('#subjects_id').empty();
+                    $('#subjects_id').html(result);
+                    $('#subjects_id').selectpicker('refresh');
                 }
 
             });
         }
+    </script>
 
+    <script>
         function filtertypes() {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                type: "post",
-                url: `filtertypes`,
-                //   contentType: "application/json; charset=utf-8",
-                dataType: "Json",
-                data: {
-                    "years_id": $("#year").val(),
-                    "subjects_id": $("#subject").val(),
-                    "month": $("#month").val(),
-                },
-                success: function(result) {
-                    if (result.status == true) {
-                        $('#example').DataTable().destroy();
-                        $("#types").empty();
-                        $("#types").append(result.data);
-                        $('#example').DataTable().draw();
-                    }
-
-                }
+            $('#dataTableBuilder').on('preXhr.dt', function(e, settings, data) {
+                //basic filters
+                data.stage_id = $("#stage_id").val();
+                data.years_id = $("#years_id").val();
+                data.subjects_id = $("#subjects_id").val();
+                data.month = $("#month").val();
 
             });
+            $('#dataTableBuilder').DataTable().ajax.reload();
         }
     </script>
 @endsection

@@ -4,6 +4,39 @@
     #example_wrapper {
         width: 100% !important;
     }
+    .form-group.upload_file .upload_file_label {
+    background-color: #f5f8fa;
+    border: 1px dashed #d1d3d6;
+    width: 100%;
+    text-align: center;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: -14px;
+    cursor: pointer;
+}
+button.btn.first.save {
+    margin-top: 10px;
+    background-color: #243e56;
+    color: white;
+    width: 40%;
+}
+.one-sec {
+    background-color: #ffffff;
+    padding: 0.5rem;
+    border-radius: 15px;
+}
+.sec-tow {
+    margin-top: 10px;
+    background-color: #ffffff;
+    padding: 0.5rem;
+    border-radius: 15px;
+}
+.sec-there {
+    margin-top: 10px;
+    background-color: #ffffff;
+    padding: 0.5rem;
+    border-radius: 15px;
+}
 </style>
 @endsection
 @section('content')
@@ -18,16 +51,24 @@
                 @csrf
                 @method('PUT')
                 <!-- start input -->
+                <div class="one-sec">
                 <div class="row">
-                    <div class="col-8 mx-auto">
-                        <div class="uploadOuter">
-                            <span class="dragBox">
+                    <div class="col-12 mx-auto">
+                        <div class="form-group upload_file">
+                            <label for="imageCover" class="upload_file_label">
 
-                                Darg and Drop image here
-                                <input type="file" name="image" onChange="dragNdrop(event)" ondragover="drag()"
-                                    ondrop="drop()" id="uploadFile" />
-                            </span>
-                        </div>
+                              <p>اسحب فديو معبر واسقطها هنا</p>
+                              <span id="fileNameImage">او اضغط هنا</span>
+                            </label>
+                            <input
+                              type="file"
+                              name=""
+                              id="imageCover"
+                              class="form-control"
+                              accept="image/*"
+                              hidden
+                            />
+                          </div>
 
                         <div id="preview">
                             @error('image')
@@ -38,43 +79,43 @@
                     </div>
 
                 </div>
-
+            </div>
+            <div class="sec-tow">
                 <div class="row">
-                    <div class="col-12">
+                    <div class="col-lg-6 col-md-12 col-12">
                         <div class="input-group">
                             <label class="form-label"> الاسم</label>
                             <input required type="text" value="{{$reel->name ?? ''}}" name="name" placeholder="الاسم" class="form-control">
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
+
+
+                    <div class="col-lg-6 col-md-12 col-12">
                         <div class="input-group">
                             <label class="form-label"> لينك الفيديو</label>
                             <input required type="text" value="{{$reel->video ?? ''}}" name="video" placeholder="لينك الفيديو" class="form-control">
                         </div>
                     </div>
                 </div>
+            </div>
                 <!-- finish input -->
 
                 <!-- start input -->
 
-
+                <div class="sec-there">
                 <div class="row">
                     <div class="col-12">
                         <div class="input-group">
                             <label class="form-label">نوع التعليم</label>
 
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="category_id" id="radio1"
-                                    onchange="toggleRow()" value="1" @if($reel->category_id == 1) checked @endif>
+                                <input class="form-check-input" type="radio" name="category_id" id="radioMainEducation" value="1">
                                 <label class="form-check-label" for="radio1">اساسي</label>
                             </div>
 
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="category_id" id="radio2"
-                                    onchange="toggleRow()" value="2" @if($reel->category_id == 2) checked @endif>
-                                <label class="form-check-label" for="radio2">جامعي</label>
+                                <input class="form-check-input" type="radio" name="category_id" id="radioUniversityEducation" value="2">
+                                <label class="form-check-label" for="radioUniversityEducation">جامعي</label>
                             </div>
 
                             {{-- <div class="form-check form-check-inline">
@@ -85,10 +126,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- finish input -->
-
-                <!-- main education -->
-                <div class="main_education" id="mainEducation">
+                <div class="main_education" id="mainEducation" style="display: none";>
                     <h4>اساسي</h4>
                     <div class="row">
                         {{-- <div class="col-12">
@@ -186,7 +224,7 @@
 
 
                 <!-- university education -->
-                <div class="university_education" id="universityEducation">
+                <div class="university_education" id="universityEducation" style="display: none">
                     <h4>جامعي</h4>
                     <div class="row">
 
@@ -298,11 +336,16 @@
                         </div>
                     </div>
                 </div>
+            </div>
+                <!-- finish input -->
+
+                <!-- main education -->
+
                 <!-- finish input -->
                 <div class="row">
                     <div class="col-lg-6">
                         <button type="submit" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                            class="btn first">حفظ</button>
+                            class="btn first save">حفظ</button>
                     </div>
                 </div>
 
@@ -595,6 +638,22 @@
                 }
 
             });
+        }
+    </script>
+    <script>
+        let radioMainEducation = document.getElementById("radioMainEducation");
+        let divMainEducation= document.getElementById("mainEducation");
+        radioMainEducation.onclick = function(){
+            divMainEducation.style.display = "block";
+            divuniversityEducation.style.display = "none";
+        }
+    </script>
+    <script>
+        let radioUniversityEducation = document.getElementById("radioUniversityEducation");
+        let divuniversityEducation = document.getElementById("universityEducation");
+        radioUniversityEducation.onclick = function(){
+            divuniversityEducation.style.display = "block";
+            divMainEducation.style.display = "none";
         }
     </script>
 @endsection

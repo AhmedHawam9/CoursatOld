@@ -110,8 +110,8 @@ class StudentDataTable extends DataTable
                         // dd($request->all());
                         return $q->where('stage_id', (int)$request->stage_id);
                     })
-                    ->when($request->year_id != null && $request->year_id != 0, function ($q) use ($request) {
-                        return $q->where('year_id', (int)$request->year_id);
+                    ->when($request->years_id != null && $request->years_id != 0, function ($q) use ($request) {
+                        return $q->where('year_id', (int)$request->years_id);
                     })
                     ->when($request->type_id != null, function ($q) use ($request) {
 

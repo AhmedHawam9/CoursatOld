@@ -31,17 +31,19 @@ use App\GroupTypescollege;
 use App\GroupCourse;
 use App\Models\PaymentWay;
 use App\Models\QrCode;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Laratrust\Traits\LaratrustUserTrait;
 
 class User extends Authenticatable
 {
-    use Notifiable, LaratrustUserTrait;
+    use Notifiable, LaratrustUserTrait, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
+    protected $table = "users";
     protected  $guarded = [];
     // protected $fillable = [
     //     'name', 'email', 'address', 'image', 'description', 'phone', 'latitude', 'longitude',

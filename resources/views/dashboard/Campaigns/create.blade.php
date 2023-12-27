@@ -5,6 +5,9 @@
         justify-content: space-between;
         gap: 35px;
     }
+    .form-group.nasra label {
+        margin-bottom: 0 !important;
+    }
 
     .hed h5 {
         font-family: "reg"
@@ -16,6 +19,15 @@
 
     .main_education h4 {
         font-family: "reg"
+    }
+    .mansa {
+    display: flex;
+    gap: 18px;
+}
+    @media only screen and (max-width: 600px) {
+        .form-group.nasra {
+            flex-wrap: wrap;
+        }
     }
 </style>
 
@@ -101,7 +113,7 @@
                         <div class="info">
                             <div class="row">
                                 {{-- input for campaign name --}}
-                                <div class="form-group col-3">
+                                <div class="form-group col-lg-3 col-md-12 col-12">
                                     <label>اسم الحملة </label>
 
                                     <input type="text" class="form-control" placeholder="ادخل اسم " name="title"
@@ -111,7 +123,7 @@
                                     @enderror
                                 </div>
                                 {{-- input for campaign description --}}
-                                <div class="form-group col-3">
+                                <div class="form-group col-lg-3 col-md-12 col-12">
                                     <label>تفاصيل الحملة </label>
 
                                     <input type="text" class="form-control" placeholder="ادخل الرقم " name="description"
@@ -121,7 +133,7 @@
                                     @enderror
                                 </div>
                                 {{-- input for campaign start date --}}
-                                <div class="form-group col-3">
+                                <div class="form-group col-lg-3 col-md-12 col-12">
                                     <label>بداية الحملة</label>
                                     <input type="date" class="form-control" placeholder="ادخل تاريخ البدء"
                                         name="start_date" value="{{ old('start_date') }}"required>
@@ -131,7 +143,7 @@
                                     @enderror
                                 </div>
                                 {{-- input for campaign end date --}}
-                                <div class="form-group col-3">
+                                <div class="form-group col-lg-3 col-md-12 col-12">
                                     <label> نهاية الحملة </label>
                                     <input type="date" class="form-control" placeholder=" ادخل تاريخ الانتهاء "
                                         name="end_date" value="{{ old('end_date') }}"required>
@@ -145,15 +157,19 @@
 
                             {{-- input for campaign platform type --}}
                             <div class="row">
+                               <div class="col-lg-12 col-md-12 col-12">
                                 <div class="hed">
                                     <h5> نوع المنصه </h5>
 
                                 </div>
-                                <div class="col-2">
+                               </div>
+                                <div class="col-lg-6 col-md-12 col-12">
                                     <div class="form-group nasra">
                                         @foreach ($platforms as $platform)
+                                           <div class="mansa">
                                             <input type="checkbox" name="platform[]" value="{{ $platform->id }}">
                                             <label>{{ $platform->title }}</label>
+                                           </div>
                                         @endforeach
                                         @error('center_id')
                                             <div style="color:red;">{{ $message }} </div>

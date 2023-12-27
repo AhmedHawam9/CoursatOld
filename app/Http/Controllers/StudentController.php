@@ -171,35 +171,45 @@ class StudentController extends Controller
     }
     public function mytypestudents()
     {
-        if (Auth::user() && Auth::user()->is_student == 5 && Auth::user()->category_id == 1) {
+        if (
+            Auth::user() &&
+            Auth::user()->is_student == config('project_types.auth_user_is_student.center') &&
+            Auth::user()->category_id == config('project_types.system_category_type.category_id_basic')
+        ) {
             $types1 = auth()->user()->centertypes->pluck('id')->toArray();
             $types = auth()->user()->centertypes;
             $students_ids = Student_Type::whereIn('type_id', $types1)->get()->pluck('student_id')->unique();
             $students1 = User::whereIn('id', $students_ids)->get();
             $students = $students1->merge(auth()->user()->centerstudents);
-        } else if (Auth::user() && Auth::user()->is_student == 2) {
+        } else if (
+            Auth::user() &&
+            Auth::user()->is_student == config('project_types.auth_user_is_student.basic_lecturer')
+        ) {
             $types1 = auth()->user()->types->pluck('id')->toArray();
             $types = auth()->user()->types;
             $students_ids = Student_Type::whereIn('type_id', $types1)->get()->pluck('student_id')->unique();
             $students1 = User::whereIn('id', $students_ids)->get();
             $students = $students1->merge(auth()->user()->centerstudents);
         } else if (
-            Auth::user() && Auth::user()->is_student == 5 &&
-            Auth::user()->category_id == 2
+            Auth::user() && Auth::user()->is_student == config('project_types.auth_user_is_student.center') &&
+            Auth::user()->category_id == config('project_types.system_category_type.category_id_college')
         ) {
             $types1 = auth()->user()->centertypescollege->pluck('id')->toArray();
             $types = auth()->user()->centertypescollege;
             $students_ids = Student_Typecollege::whereIn('typecollege_id', $types1)->get()->pluck('student_id')->unique();
             $students1 = User::whereIn('id', $students_ids)->get();
             $students = $students1->merge(auth()->user()->centerstudents);
-        } else if (Auth::user() && Auth::user()->is_student == 3) {
+        } else if (
+            Auth::user() &&
+            Auth::user()->is_student == config('project_types.auth_user_is_student.doctor')
+        ) {
             $types1 = auth()->user()->typescollege->pluck('id')->toArray();
             $types = auth()->user()->typescollege;
             $students_ids = Student_Typecollege::whereIn('typecollege_id', $types1)->get()->pluck('student_id')->unique();
             $students1 = User::whereIn('id', $students_ids)->get();
             $students = $students1->merge(auth()->user()->centerstudents);
         } else if (
-            Auth::user() && Auth::user()->is_student == 5 &&
+            Auth::user() && Auth::user()->is_student == config('project_types.auth_user_is_student.center') &&
             Auth::user()->category_id == 3
         ) {
             $types1 = auth()->user()->centercourses->pluck('id')->toArray();
@@ -207,7 +217,10 @@ class StudentController extends Controller
             $students_ids = Student_Course::whereIn('course_id', $types1)->get()->pluck('student_id')->unique();
             $students1 = User::whereIn('id', $students_ids)->get();
             $students = $students1->merge(auth()->user()->centerstudents);
-        } else if (Auth::user() && Auth::user()->is_student == 4) {
+        } else if (
+            Auth::user() &&
+            Auth::user()->is_student == config('project_types.auth_user_is_student.private_course_lecturer')
+        ) {
             $types1 = auth()->user()->courses->pluck('id')->toArray();
             $types = auth()->user()->courses;
             $students_ids = Student_Course::whereIn('course_id', $types1)->get()->pluck('student_id')->unique();
@@ -255,11 +268,11 @@ class StudentController extends Controller
         $students = [];
         $students_joins = Student_Type::where("type_id", $id)->onlyTrashed()->get();
         foreach ($students_joins as $join) {
-            $students [] = $join->student;
+            $students[] = $join->student;
         }
         // $students = Type::where("id", $id)->first()->studentstype()->onlyTrashed()->get();
         $status = 0;
-        return view("dashboard.courses_students.studentstype", compact("students", "id", "status"));
+        return view("dashboard.courses_students.bannedStudentstype", compact("students", "id", "status"));
     }
     public function studentstypecollege($id)
     {
@@ -272,14 +285,17 @@ class StudentController extends Controller
 
         $students = [];
         $students_joins = Student_Typecollege::where("typecollege_id", $id)->onlyTrashed()->get();
-        foreach ($students_joins as $join) {
-            $students [] = $join->student;
-        }
+        $students = $students_joins->map(function ($item) {
+            return $item->student;
+        });
+        // foreach ($students_joins as $join) {
+        //     $students[] = $join->student;
+        // }
         // $students = TypesCollege::with(['studentscollege' => function ($query) {
         //     $query->onlyTrashed();
         // }])->find($id)->studentscollege;
         $status = 1;
-        return view("dashboard.courses_students.studentstype", compact("students", "id", "status"));
+        return view("dashboard.courses_students.bannedStudentstype", compact("students", "id", "status"));
     }
     public function studentscourse($id)
     {
@@ -437,9 +453,10 @@ class StudentController extends Controller
         return view('dashboard.students.unverified_students', compact('students'));
     }
 
-    public function verify_all_students(){
+    public function verify_all_students()
+    {
         $students = User::where('phone_verify', 0)->whereIn("is_student", [1, 2])->where("is_visitor", 0)->whereNotNull("name")->get();
-        foreach($students as $student){
+        foreach ($students as $student) {
             $student->update([
                 "phone_verify" => 1
             ]);

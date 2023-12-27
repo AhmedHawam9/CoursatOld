@@ -25,7 +25,7 @@
 
                         </div>
 
-            
+
                             </div>
                         </div>
                         <div class="flag">
@@ -40,7 +40,7 @@
 
                                 </div>
 
-                         
+
 
                             </div>
 
@@ -83,15 +83,15 @@
                             <img src="images/all-products.svg">
                             <h5>رسائل المستخدمين </h5>
 
-                           
-                    
+
+
                         </div>
 
                         <div class="products-search typs1">
                             <div class="row">
-                     
 
-                                
+
+
 
 
 
@@ -105,35 +105,37 @@
 
                         <div class="pt-5">
                             <div class="row">
-                                                    
-         <table id="example" class="table col-12" style="width:100%">
-   <thead>
-                <tr>
-					<th>id</th>
-                     <th scope="col" class="text-center">الاسم</th>
-     <th scope="col" class="text-center">رقم الهاتف</th>
-  <th scope="col" class="text-center">الرساله</th>
- 
-                    <th scope="col" class="text-center">الوقت</th>
-                </tr>
-                        </thead>
-        <tbody>
-                    @foreach($messages as $message)
-                       <tr id="m{{$message['id']}}">
-						   <td>{{$message->id}}</td>
-                <td scope="row" class="text-center">
-                   {{$message->user['name']}}</td>
-						    <td scope="row" class="text-center">
-                   {{$message->phone}}</td>
-                        <td class="text-center">
-               {{$message->message}}
-                                            </td>
-						   <td class="text-center">{{$message->getdate()}}</td>
-                                        </tr>                            
-                                        @endforeach
-                                    </tbody>
-    </table>
-                             
+
+        <div class="table-responsive">
+            <table id="example" class="table col-12" style="width:100%">
+                <thead>
+                             <tr>
+                                 <th>id</th>
+                                  <th scope="col" class="text-center">الاسم</th>
+                  <th scope="col" class="text-center">رقم الهاتف</th>
+               <th scope="col" class="text-center">الرساله</th>
+
+                                 <th scope="col" class="text-center">الوقت</th>
+                             </tr>
+                                     </thead>
+                     <tbody>
+                                 @foreach($messages as $message)
+                                    <tr id="m{{$message['id']}}">
+                                        <td>{{$message->id}}</td>
+                             <td scope="row" class="text-center">
+                                {{$message->user['name']}}</td>
+                                         <td scope="row" class="text-center">
+                                {{$message->phone}}</td>
+                                     <td class="text-center">
+                            {{$message->message}}
+                                                         </td>
+                                        <td class="text-center">{{$message->getdate()}}</td>
+                                                     </tr>
+                                                     @endforeach
+                                                 </tbody>
+                 </table>
+        </div>
+
                             </div>
 
                     </div>
@@ -162,9 +164,9 @@
 @endsection
 @section("scripts")
 <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-    
+
     <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
-  
+
 
 <script>
  $(document).ready(function() {
@@ -174,15 +176,15 @@
       {
           targets: 0,
         visible : false,
-        
-     
+
+
       },]
-           
+
 });
 	});
    function deleteoffer(sel){
     let id = sel;
- 
+
  $.ajaxSetup({
        headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -216,11 +218,11 @@
          )
        }
            }
-        
+
     });
     }
-   
-   
+
+
   })
 }
 

@@ -78,7 +78,7 @@
                         <div class="info">
                             <div class="row">
 
-                                <div class="form-group col-3">
+                                <div class="form-group col-lg-3 col-md-12 col-12">
                                     <label>اسم الوسيله </label>
                                     <input type="text" class="form-control" placeholder="ادخل اسم " name="title"
                                         value="{{ old('title') }}"required>
@@ -87,7 +87,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="form-group col-3">
+                                <div class="form-group col-lg-3 col-md-12 col-12">
                                     <label>رقم الوسيلة </label>
                                     <input type="text" class="form-control" placeholder="ادخل الرقم " name="number"
                                         value="{{ old('number') }}"required>
@@ -110,7 +110,7 @@
                                     </div>
                                 @endif --}}
 
-                                <div class="form-group col-3">
+                                <div class="form-group col-lg-3 col-md-12 col-12">
                                     <label>صورة الوسيلة </label>
                                     <input type="file" class="form-control" placeholder="ادخل الصورة " name="image">
                                     @error('image')
